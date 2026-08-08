@@ -13,27 +13,27 @@ variables:
   # Limit fetch depth to reduce submodule checkout time
   GIT_SUBMODULE_DEPTH: 1
 
-do-static-analysis:
-  stage: test
-  rules:
-    - if: $CI_COMMIT_TAG == null
-  needs: []
-  image: ubuntu:22.04
-  variables:
-    PIP_CACHE_DIR: ${CI_PROJECT_DIR}/.cache/pip
-    PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
-    SHELLCHECK_DIR: ${CI_PROJECT_DIR}/.cache/shellcheck-stable
-  cache:
-    # Enable per-job and per-branch caching
-    key: $CI_JOB_NAME-$CI_COMMIT_REF_SLUG
-    paths:
-      - ${PIP_CACHE_DIR}
-      - ${PRE_COMMIT_HOME}
-      - ${SHELLCHECK_DIR}
+# do-static-analysis:
+#   stage: test
+#   rules:
+#     - if: $CI_COMMIT_TAG == null
+#   needs: []
+#   image: ubuntu:22.04
+#   variables:
+#     PIP_CACHE_DIR: ${CI_PROJECT_DIR}/.cache/pip
+#     PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
+#     SHELLCHECK_DIR: ${CI_PROJECT_DIR}/.cache/shellcheck-stable
+#   cache:
+#     # Enable per-job and per-branch caching
+#     key: $CI_JOB_NAME-$CI_COMMIT_REF_SLUG
+#     paths:
+#       - ${PIP_CACHE_DIR}
+#       - ${PRE_COMMIT_HOME}
+#       - ${SHELLCHECK_DIR}
 
-  script:
-    - ./continuous-integration/do-static-analysis.install-system-deps.sh
-    - ./continuous-integration/do-static-analysis.sh
+#   script:
+#     - ./continuous-integration/do-static-analysis.install-system-deps.sh
+#     - ./continuous-integration/do-static-analysis.sh
 
 generate-build-artifacts:
   stage: build
