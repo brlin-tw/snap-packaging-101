@@ -45,7 +45,8 @@ style: |
 # 《Snap 軟體打包入門》工作坊
 
 COSCUP 2026 x UbuCon Asia  
-林博仁
+林博仁  
+https://brlin.gitlab.io/snap-packaging-101/
 
 ---
 
