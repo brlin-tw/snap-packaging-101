@@ -66,27 +66,29 @@ https://brlin.gitlab.io/snap-packaging-101/
 ## Snap 是什麼？
 
 - **基於作業系統虛擬化技術**
-- 透過 **Base Snap** 提供相容性 (例如 Ubuntu Core)
-- 實現**跨平台相容性** (Linux Distributions)
-- 需支援 `systemd` 與 `snapd`
+- 透過 Ubuntu Core 提供跨平台相容性  
+  <small>※需支援 `systemd` 與 `snapd`</small>
 
 ---
 
 ## Snap 軟體包解析
 
 - **高度壓縮的 SquashFS 檔案系統**
-- 掛載至 `/snap/軟體包名稱/版本號`
+- 掛載至 `/snap/軟體包名稱/current`
 - 使用 **Linux Namespace** 技術實現隔離
-- 提供最小化的執行環境 (Runtime Environment)
+- 在最小化的 Ubuntu Core 執行環境執行
 
 ---
 
 ## 打包對象的選擇
 
-- **推薦打包**：命令列界面 (CLI) 軟體
-- CLI 軟體可直接透過原生命令執行
-- **注意**：避免打包架構複雜、依賴過多的軟體
-- **目標**：確保軟體能順利上架 Snap Store
+- **推薦打包**：
+    - 命令列界面 (CLI) 軟體
+    - 網路服務
+- **斟酌**：
+    - 圖形界面軟體 (GUI) 軟體
+- **應避免**：
+    - 需要存取非標準檔案系統路徑或太底層的系統資源
 
 ---
 
@@ -95,7 +97,6 @@ https://brlin.gitlab.io/snap-packaging-101/
 - **Linux**: `snap install --classic snapcraft`
 - **macOS**: 使用 Homebrew (`brew install`)
 - **Windows**: 使用 WSL 2 進行操作
-- **建議環境**：支援 `snapd` 的 Linux 發行版
 
 ---
 
@@ -104,7 +105,9 @@ https://brlin.gitlab.io/snap-packaging-101/
 - **LXD**: 基於 LXC 容器的虛擬化 (Linux 預設)
 - **Multipass**: 基於 KVM 虛擬機的虛擬化
 - **macOS/Windows**: 僅支援 Multipass
-- 可透過環境變數客製化 CPU 與 Memory
+- Multipass build provider 可透過環境變數客製化 CPU 與 Memory：
+  - `SNAPCRAFT_BUILD_ENVIRONMENT_CPU`
+  - `SNAPCRAFT_BUILD_ENVIRONMENT_MEMORY`
 
 ---
 
@@ -194,6 +197,7 @@ https://brlin.gitlab.io/snap-packaging-101/
 <section class="hands-on">
 
 # 🛠️ Hands-on Lab 3
+
 ## Deployment & Testing
 
 **Step 1: Run Application**
