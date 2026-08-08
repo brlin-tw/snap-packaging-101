@@ -102,10 +102,10 @@ https://brlin.gitlab.io/snap-packaging-101/
 
 ## Snapcraft Build Providers
 
-- **LXD**: 基於 LXC 容器的虛擬化 (Linux 預設)
-- **Multipass**: 基於 KVM 虛擬機的虛擬化
+- **LXD**: 基於 LXC 容器的打包環境 (Linux 預設)
+- **Multipass**: 基於虛擬機的打包環境
 - **macOS/Windows**: 僅支援 Multipass
-- Multipass build provider 可透過環境變數客製化 CPU 與 Memory：
+- Multipass build provider 可透過環境變數客製化虛擬機的 CPU 核心樹與主記憶體大小：
   - `SNAPCRAFT_BUILD_ENVIRONMENT_CPU`
   - `SNAPCRAFT_BUILD_ENVIRONMENT_MEMORY`
 
@@ -114,34 +114,27 @@ https://brlin.gitlab.io/snap-packaging-101/
 ## 實作環節：GNU Hello
 
 - 使用 **GNU Hello** 演示程式進行實作
-- 下載 GNU Hello 原始碼封存檔 (`.tar.gz`)
-- 建立 `hello-snap` 工作目錄
-- 執行 `snapcraft init` 初始化專案
-
----
-
-<section class="hands-on">
-
-# 🛠️ Hands-on Lab 1
-## Setup & Initialization
-
-1. `git clone https://gitlab.com/brlin/snap-packaging-101.git`
-2. `cd snap-packaging-101`
-3. `git submodule init && git submodule update`
-4. `mkdir hello-snap && cd hello-snap`
-5. `snapcraft init`
-
-</section>
+- 下載 GNU Hello 原始碼封存檔 (`.tar.gz`)  
+  https://ftp.gnu.org/gnu/hello/
+- `mkdir hello-snap`
+- `snapcraft init`
 
 ---
 
 ## Snapcraft 頂層設定
 
-- `name`: 軟體包唯一識別名稱
-- `base`: 使用的 Base Snap (例如 `core24`)
-- `version`: 軟體版本號 (建議用字串)
-- `summary`: 簡短的軟體描述 (限制 78 字元)
-- `confinement`: 權限限制模式 (`strict`, `devmode`, `classic`)
+
+```yaml
+name: hello-coscup2025
+base: core24
+version: 2.12.3
+summary: Demonstration snap for COSCUP 2025
+description: |
+  This is a demonstration snap for COSCUP 2025. It is used to show how to create a snap package.
+
+grade: stable
+confinement: strict
+```
 
 ---
 
@@ -155,66 +148,54 @@ https://brlin.gitlab.io/snap-packaging-101/
 
 ---
 
-<section class="hands-on">
+## PULL 步驟
 
-# 🛠️ Hands-on Lab 2
-## The Build Lifecycle
+```bash
+snapcraft pull --verbose --shell-after
+```
 
-**Step 1: Pull & Build**
-`snapcraft pull --verbose`
-`snapcraft build --verbose --shell-after` (Run `exit` when prompted)
-`snapcraft build --verbose`
+## BUILD 步驟
 
-**Step 2: Stage & Prime**
-`snapcraft stage --verbose --shell-after` (Run `exit`)
-`snapcraft prime --verbose --shell-after` (Run `exit`)
+```bash
+snapcraft build --verbose --shell-after
+```
 
-**Step 3: Pack**
-`snapcraft pack`
+## STAGE 步驟
 
-</section>
+```bash
+snapcraft stage --verbose --shell-after
+```
 
----
+## PRIME 步驟
 
-## Build & Stage (建構與階段準備)
+```bash
+snapcraft prime --verbose --shell-after
+```
 
-- **BUILD**: 執行 `configure`, `make`, `make install`
-- **STAGE**: 準備執行環境，提供依賴資源
-- 可使用 **Build Plugin** (如 `autotools`, `python`, `go`)
-- 利用 `organize` 鍵搬移檔案到指定路徑
+## PACK 步驟
 
----
+```bash
+snapcraft pack
+```
 
-## Prime & Pack (精簡與封裝)
+## 安裝打包好的 snap
 
-- **PRIME**: 排除不必要的檔案以減小檔案體積
-- 排除方式：在 `parts.name.prime` 中使用 `"-"` 前符
-- **PACK**: 將 Prime 目錄內容封裝成最終 Snap 檔
-- 使用 `snapcraft pack` 執行
+```bash
+snap install --dangerous --devmode ./hello_*snap
+```
 
----
+## 設定 Snap 應用
 
-<section class="hands-on">
+```yaml
+apps:
+  hello-coscup2025:
+    command: usr/local/bin/hello
+    plugs: []
 
-# 🛠️ Hands-on Lab 3
-
-## Deployment & Testing
-
-**Step 1: Run Application**
-`sudo snap install --dangerous --devmode ./hello_...snap`
-`hello` (Test the command)
-
-**Step 2: Define Apps & Aliases**
-*Edit `snapcraft.yaml` to add `apps` and `alias`*
-`sudo snap install --dangerous ./hello_...snap`
-`hello` (Test via alias)
-
-**Step 3: Fix Layouts (Relocatable)**
-*Edit `snapcraft.yaml` to add `layout` for locales*
-`sudo snap install --dangerous ./hello_...snap`
-`snap run hello` (Test language support)
-
-</section>
+  traditional:
+    command: usr/local/bin/hello --traditional
+    plugs: []
+```
 
 ---
 
