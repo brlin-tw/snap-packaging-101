@@ -154,11 +154,15 @@ confinement: strict
 snapcraft pull --verbose --shell-after
 ```
 
+---
+
 ## BUILD 步驟
 
 ```bash
 snapcraft build --verbose --shell-after
 ```
+
+---
 
 ## STAGE 步驟
 
@@ -166,11 +170,15 @@ snapcraft build --verbose --shell-after
 snapcraft stage --verbose --shell-after
 ```
 
+---
+
 ## PRIME 步驟
 
 ```bash
 snapcraft prime --verbose --shell-after
 ```
+
+---
 
 ## PACK 步驟
 
@@ -178,11 +186,15 @@ snapcraft prime --verbose --shell-after
 snapcraft pack
 ```
 
+---
+
 ## 安裝打包好的 snap
 
 ```bash
 snap install --dangerous --devmode ./hello_*snap
 ```
+
+---
 
 ## 設定 Snap 應用
 
@@ -208,6 +220,3 @@ layout:
 ```
 
 ---
-
-# 謝謝聆聽
-## Q & A
