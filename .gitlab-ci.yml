@@ -70,3 +70,10 @@ create-release:
     - apk add bash git
     - ./continuous-integration/generate-release-description.sh
     - ./continuous-integration/create-gitlab-release.sh
+
+include:
+  - project: saferatday0/library/marp
+    file: marp-build.yml
+
+  - project: saferatday0/library/pages
+    file: pages.yml
