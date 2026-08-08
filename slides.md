@@ -199,53 +199,13 @@ apps:
 
 ---
 
-## 應用程式定義與別名
+## 設定 Layout
 
-- **apps 映射**：定義軟體提供的可執行命令
-- `command`: 指定軟體在系統中的實際路徑
-- **Alias**: 設定慣用的命令名稱 (如 `hello`)
-- 允許在不同的頻道 (`edge`, `beta`, `stable`) 之間切換
-
----
-
-## 處理路徑與佈局 (Layouts)
-
-- **問題**：軟體路徑寫死在程式中導致找不到檔案
-- **解決方案**：使用 **Layouts** 功能
-- 透過 Symlink 將資料掛載到預期路徑
-- **範例**：將 `$SNAP/usr/local/share/locale` 掛載到 `/usr/local/share/locale`
-
----
-
-<section class="hands-on">
-
-# 🛠️ Hands-on Lab 4
-## Publishing to the Store
-
-1. **Login**: `snapcraft login`
-2. **Upload**: `snapcraft upload <your_snap_file>`
-3. **Register**: Log in to Snap Store dashboard
-4. **Promote**: `snapcraft promote --from-channel edge --to-channel beta <your_snap_file>`
-
-</section>
-
----
-
-## 上傳至 Snap Store
-
-1. 登入 Ubuntu One 帳號 (`snapcraft login`)
-2. 上傳軟體包 (`snapcraft upload`)
-3. 在商店後台進行 **Register** 與 **Promote**
-4. 從 `edge` 頻道逐步提升至 `stable` 頻道
-
----
-
-## 總結
-
-- Snap 提供了強大的隔離與跨平台打包能力
-- 理解 **Build Lifecycle** 是打包成功的關鍵
-- 利用 **Layouts** 解決路徑依賴問題
-- **祝大家打包順利！**
+```yaml
+layout:
+  /usr/local/share/locale:
+    symlink: $SNAP/usr/local/share/locale
+```
 
 ---
 
